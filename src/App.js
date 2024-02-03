@@ -1,9 +1,11 @@
-
+import React, { useState } from "react";
+import { Button } from 'react-bootstrap'
 import yes from './images/yes.png';
 import no from './images/no.png';
 
 import './App.css';
 
+/** To represent the main block of code running our web application */
 function App() {
   return (
     <div className="App">
@@ -22,8 +24,11 @@ function App() {
         <p>
           This will be the landing page for the project web application.
         </p>
-        <img src={yes} className="option" alt="yes" />
-        <img src={no} className="option" alt="no" />
+        <div className="yes-no-bar">
+          <h3>[include location entry here]</h3>
+          <img src={yes}className="option" alt="yes" onClick={() => alert("Clicked yes")}/>
+          <img src={no} className="option" alt="no" onClick={() => alert("Clicked no")} />
+        </div>
       </div>
     </div>
   );
