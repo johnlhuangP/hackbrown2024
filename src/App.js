@@ -4,7 +4,7 @@ import no from './images/no.png';
 
 import './App.css';
 import CurrentLocation from "./CurrentLocation.js";
-
+import socket from './socket'
 /** To represent the main block of code running our web application */
 function App() {
   return (
