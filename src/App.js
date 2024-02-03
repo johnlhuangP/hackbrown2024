@@ -13,24 +13,8 @@ function App() {
         <h1>
           Brown Hackathon 2024
         </h1>
-        <h2>
-         
-        </h2>
       </header>
-            <div className='landing-page'>
-              <h2>
-                Welcome to the project web application!
-              </h2>
-              <p>
-                This will be the landing page for the project web application.
-              </p>
-              <CurrentLocation />
-              <div className="yes-no-bar">
-                <h3>[include location entry here]</h3>
-                <img src={yes}className="option" alt="yes" onClick={() => alert("Clicked yes")}/>
-                <img src={no} className="option" alt="no" onClick={() => alert("Clicked no")} />
-              </div>
-            </div>
+      <CurrentLocation/>
     </div>
   );
 }
