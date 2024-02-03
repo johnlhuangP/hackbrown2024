@@ -1,4 +1,7 @@
-import logo from './logo.svg';
+
+import yes from './images/yes.png';
+import no from './images/no.png';
+
 import './App.css';
 
 function App() {
@@ -8,6 +11,9 @@ function App() {
         <h1>
           Brown Hackathon 2024
         </h1>
+        <h2>
+         
+        </h2>
       </header>
       <div className='landing-page'>
         <h2>
@@ -16,6 +22,8 @@ function App() {
         <p>
           This will be the landing page for the project web application.
         </p>
+        <img src={yes} className="option" alt="yes" />
+        <img src={no} className="option" alt="no" />
       </div>
     </div>
   );
