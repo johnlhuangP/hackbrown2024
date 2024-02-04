@@ -2,12 +2,10 @@ import React from 'react';
 
 
 const cardAppearance = {
-    background: "skyblue",
+    background: "#grey",
     borderRadius: 15,
     width: "20%",
-    height: "100%",
-    cursor: "pointer",
-    userSelect: "none",
+    height: "500px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center"
@@ -20,7 +18,6 @@ const cardAppearance = {
    */
 const Card = () => (
     <div style={cardAppearance}>
-        <h1>Card</h1>
     </div>
 );
 
