@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import Home from './Home'
 import reportWebVitals from './reportWebVitals';
-import CurrentLocation from './CurrentLocation'
+import CurrentLocation from './components/CurrentLocation'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -30,5 +30,7 @@ const router = createBrowserRouter([
 ])
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <RouterProvider router = {router} />
+  <ChakraProvider>
+    <RouterProvider router={router} />
+  </ChakraProvider>,
 );
