@@ -14,6 +14,10 @@ import {
 
 const router = createBrowserRouter([
   {
+    path: "/",
+    element: <Home/>,
+  },
+  {
     path: "card",
     element: <App/>,
     children: [
@@ -22,10 +26,6 @@ const router = createBrowserRouter([
         element: <CurrentLocation />,
       }
     ]
-  },
-  {
-    path: "home",
-    element: <Home/>,
   }
 ])
 const root = ReactDOM.createRoot(document.getElementById('root'));
