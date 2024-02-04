@@ -40,6 +40,7 @@ function generateUniqueId() {
 }
 function recordVote(sessionId, participantId, optionId, made) {
     let session = sessions[sessionId];
+    console.log('checking vote');
     if (session && session.participants[participantId]) {
       let participant = session.participants[participantId];
       participant.votedOptions.add(optionId);
@@ -156,7 +157,7 @@ io.on('connection', (socket) => {
             socket.join(joinCode);
             id = socket.id
             sessions[joinCode].participants[id] =  {votedOptions : new Set(), hasVotedForAll: false};
-            socket.emit('joinedSession', {joinCode, places: sessions[joinCode].places});
+            socket.emit('joinedSession', {sessionId: joinCode, places: sessions[joinCode].places});
             console.log(sessions);
             io.to(joinCode).emit('newParticipant', { participantId: socket.id });
         } else{

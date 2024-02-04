@@ -13,7 +13,7 @@ function App() {
   const locs = sessionData.state.locs;
   const sessionId = sessionData.state.id;
   console.log('locs' + locs);
-  console.log(sessionId)
+  console.log('sesionId' + sessionId)
   return (
     <div className="App">
       <div className="sesh-container"><p className="sesh">Session ID: {sessionId}</p></div>

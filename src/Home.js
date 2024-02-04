@@ -107,9 +107,9 @@ const Home = () => {
         socket.on('joinedSession', (data) =>{
             setSesh(data.sessionId);
             setLocs(data.places);
-            navigate('/card/0', {id : data.sessionId, locs: data.places})
+            navigate('/card/0', {state: {id : data.sessionId, locs: data.places}})
             setloading(false)
-            console.log('new sesion id: ' + sesh + 'locs: ' + locs);
+            console.log('new sesion id: ' + data.sessionId + 'locs: ' + locs);
         })
         document.getElementById('join').addEventListener('click', handleChangeJoin)
         document.getElementById('create').addEventListener('click', handleChangeMake)
@@ -125,8 +125,7 @@ useEffect(() => {
         }
 
         const joinSession = (event) => {
-            console.log(sesh);
-            socket.emit('joinSession', { joinCode: sesh });
+            socket.emit('joinSession', { joinCode: joinCode });
             setloading(true);
         };
         
@@ -182,7 +181,7 @@ useEffect(() => {
         <div className='former'>
       <label htmlFor="code" className='form'>CODE</label>
       <input
-        type="number"
+        type="text"
         id="code"
         name="code"
         value={joinCode}
