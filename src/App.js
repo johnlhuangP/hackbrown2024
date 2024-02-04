@@ -1,19 +1,21 @@
 import React from "react";
-import yes from './images/yes.png';
-import no from './images/no.png';
+
+import { useLocation } from 'react-router-dom';
 
 import './App.css';
 import CurrentLocation from "./CurrentLocation.js";
 
 /** To represent the main block of code running our web application */
 function App() {
+  const sessionData = useLocation();
+  console.log(sessionData);
+  const locs = sessionData.state.locs;
+  const sessionId = sessionData.state.id;
+  console.log(locs)
+  console.log(sessionId)
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>
-          Brown Hackathon 2024
-        </h1>
-      </header>
+      <p>Session ID: {sessionId}</p>
       <CurrentLocation/>
     </div>
   );
