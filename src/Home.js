@@ -81,80 +81,46 @@ import ToggleComponent from './components/ToggleComponent';
 import { Switch } from '@chakra-ui/react';
 
 const Home = () => {
-  const [sesh, setSesh] = useState(null);
-  const [locs, setLocs] = useState(null);
-
-  useEffect(() => {
-    socket.on('sessionCreated', (data) => {
-      console.log(data);
-      setSesh(data.sessionId);
-      setLocs(data.places);
+    const [sesh, setSesh] = useState(null);
+    const [locs, setLocs] = useState(null);
+    useEffect(() => {
+        socket.on('sessionCreated', (data) =>{
+            console.log(data);
+            setSesh(data.sessionId);
+            setLocs(data.places)
+        })
+        socket.on('joinedSession', (data) =>{
+            setSesh(data.sessionId);
+            setLocs(data.places);
+            console.log('new sesion id: ' + sesh + 'locs: ' + locs);
+        })
+    document.getElementById('vote').addEventListener('click', function() {
+        // This code will be executed when the button is clicked
+        socket.emit('makeVote', { placeId: 1, joinCode: sesh});
     });
-
-    socket.on('joinedSession', (data) => {
-      setSesh(data.sessionId);
-      setLocs(data.places);
-      console.log('new session id: ' + sesh + ' locs: ' + locs);
+    document.getElementById('create').addEventListener('click', function() {
+        // This code will be executed when the button is clicked
+        socket.emit('createSession', { amt: 5, distance: 500 });
     });
-
-    document.getElementById('vote').addEventListener('click', function () {
-      socket.emit('makeVote', { placeId: 1, joinCode: sesh });
+    document.getElementById('join').addEventListener('click', function() {
+        // This code will be executed when the button is clicked
+        console.log(sesh);
+        socket.emit('joinSession', { joinCode: sesh });
     });
-
-    document.getElementById('create').addEventListener('click', function () {
-      socket.emit('createSession', { amt: 5, distance: 500 });
-    });
-
-    document.getElementById('join').addEventListener('click', function () {
-      console.log(sesh);
-      socket.emit('joinSession', { joinCode: sesh });
-    });
-
-    return () => {
-      // Cleanup event listeners on component unmount
-      document.getElementById('vote').removeEventListener('click', voteHandler);
-      document.getElementById('create').removeEventListener('click', createHandler);
-      document.getElementById('join').removeEventListener('click', joinHandler);
-    };
-  }, [sesh, locs]);
-
-  useEffect(() => {
+});
+useEffect(() => {
     console.log('new session id:', sesh, 'locs:', locs);
   }, [sesh, locs]);
-
-  const voteHandler = () => {
-    socket.emit('makeVote', { placeId: 1, joinCode: sesh });
-  };
-
-  const createHandler = () => {
-    socket.emit('createSession', { amt: 5, distance: 500 });
-  };
-
-  const joinHandler = () => {
-    console.log(sesh);
-    socket.emit('joinSession', { joinCode: sesh });
-  };
-
-  return (
-    <div className='current-location'>
-      <h2 id="kickStyle">KickIt</h2>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <ToggleComponent />
-      </div>
-
-      
-      <button id="create" onClick={createHandler}>
-        Make Session
-      </button>
-      <button id="join" onClick={joinHandler}>
-        Join Session
-      </button>
-      <button id="vote" onClick={voteHandler}>
-        Vote
-      </button>
-    </div>
-  );
-};
+    return (
+        <div className='current-location'>
+              <h2>
+                Welcome to the home page. Join game or create game
+              </h2>
+              <button id="create">Make Session</button>
+        <button id="join">Join Session</button>
+        <button id = "vote">Vote</button>
+        </div>
+    )
+}
 
 export default Home;
->>>>>>> e96d4018ecb5665ec491a060ebad75d51d075d38
