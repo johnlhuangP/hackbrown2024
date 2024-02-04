@@ -7,6 +7,7 @@ import Waiting from './waiting'
 import Winner from './winner'
 import reportWebVitals from './reportWebVitals';
 import CurrentLocation from './CurrentLocation'
+import Card from './Card'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -24,8 +25,13 @@ const router = createBrowserRouter([
     element: <App/>,
     children: [
       {
-        index: true,
         element: <CurrentLocation />,
+        children: [
+          {
+          index: true,
+          element: <Card/>
+          }
+        ]
       }
     ]
   },
