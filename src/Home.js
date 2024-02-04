@@ -9,7 +9,7 @@ const Home = () => {
     const [loading, setloading] = useState(false)
     const [make, setMake] = useState(true)
     const [numberOfLocations, setNumberOfLocations] = useState(10);
-    const [distance, setDistance] = useState(10)
+    const [distance, setDistance] = useState(5000)
     const [joinCode, setJoinCode] = useState('')
 
 
@@ -130,7 +130,7 @@ useEffect(() => {
         id="distance"
         name="distance"
         min="100"  // Minimum number of locations
-        value={numberOfLocations}
+        value={distance}
         onChange={handleChange}
       />
       <button id='goMake' className = 'go' type="submit">GO</button>

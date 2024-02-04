@@ -11,7 +11,7 @@ function App() {
   console.log(sessionData);
   const locs = sessionData.state.locs;
   const sessionId = sessionData.state.id;
-  console.log(locs)
+  console.log('locs' + locs);
   console.log(sessionId)
   return (
     <div className="App">
