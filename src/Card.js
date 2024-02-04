@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const cardAppearance = {
     background: "skyblue",
     borderRadius: 15,
