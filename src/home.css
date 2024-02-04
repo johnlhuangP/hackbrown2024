@@ -24,20 +24,7 @@
 
     margin-bottom: 20px;
   }
-  
-  #vote,
-  #create,
-  #join {
-    margin-top: 10px;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #61dafb; /* Change color to your preference */
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
+
   #vote:hover,
   #create:hover,
   #join:hover {
