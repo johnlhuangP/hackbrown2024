@@ -4,8 +4,10 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #282c34;
+    background-color: #102756;
     color: white;
+    gap: 20px;
+    flex-direction: column;
   }
   
   .App-header {
@@ -13,7 +15,7 @@
   }
   
   .app-title {
-    font-size: 3rem;
+    font-size: 4rem;
     margin-bottom: 20px;
   }
   
