@@ -1,0 +1,33 @@
+/* App.css */
+.App {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #282c34;
+    color: white;
+  }
+  
+  .App-header {
+    text-align: center;
+  }
+  
+  .app-title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .centered-container {
+    text-align: center;
+  }
+  
+  .join-session-container {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  h3 {
+    margin-bottom: 10px;
+  }
+  
+  /* Rest of your existing styles */

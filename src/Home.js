@@ -32,10 +32,12 @@ useEffect(() => {
     console.log('new session id:', sesh, 'locs:', locs);
   }, [sesh, locs]);
     return (
-        <div className='current-location'>
-              <h2>
-                Welcome to the home page. Join game or create game
-              </h2>
+        <div className='App'>
+            <header className='App-Header'>
+                <h1 className='app-title'>
+                    KickIT
+                </h1>
+            </header>
               <button id="create">Make Session</button>
         <button id="join">Join Session</button>
         <button id = "vote">Vote</button>
