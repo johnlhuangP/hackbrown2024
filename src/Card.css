@@ -1,5 +1,12 @@
+img{
+    border-radius: 10%;
+    height: 250px;
+    width: 250px;
+
+}
+
 .card {
-    background-color: #808080;
+    background-color: grey;
     border-radius: 2px;
     display: inline-block;
     border-radius: 15px;
