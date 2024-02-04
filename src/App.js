@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, Outlet } from 'react-router-dom';
 
 import './App.css';
 import CurrentLocation from "./CurrentLocation.js";
@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <p>Session ID: {sessionId}</p>
-      <CurrentLocation/>
+      <Outlet context= {locs}/>
     </div>
   );
 }
