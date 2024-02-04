@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './waiting.css'
+import './winner.css'
 import socket from './socket'
 import { useNavigate, useLocation } from 'react-router-dom';
 const Winner = () => {
@@ -12,15 +13,17 @@ const Winner = () => {
     console.log('windex: '+ windex)
     const winnerdata = winner.state.locs[parseInt(windex)]
     console.log('winner data' + winnerdata)
-    useEffect(() => {
-
-    }, []);
+    const handleClick = (event) =>{
+        navigate('/')
+    }
     return (
         <div className='background'>
               <h1 className='waiting'>
                 {winnerdata.name}
                 <div></div>
                 🎉 {votes} friends voted YES! 🎉 
+                <div></div>
+                <button className='butt' onClick = {handleClick}>MORE?</button>
               </h1>
         </div>
     );

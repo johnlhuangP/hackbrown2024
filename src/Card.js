@@ -9,15 +9,18 @@ import {useOutletContext, Outle} from 'react-router-dom'
 const Card = () => {
     const [details, setDetails] = useState(null)
     const {locs, index} = useOutletContext()
-    const ref = locs[index].photos[0].photo_reference
+    let ref = 'default_value'; // Default value
+if (locs[index] && locs[index].photos && locs[index].photos[0] && locs[index].photos[0].photo_reference) {
+  ref = locs[index].photos[0].photo_reference;
+}
     return (
     <div className="card">
         <h1>{locs[index].name}</h1>
         {/* <img src= "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png" alt="location"/> */}
-        <img src={"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=" + ref + "&key=AIzaSyCgKUYmaMTeQNa1MPWS6_LO6hTVxcxMSZY"} alt="location"/>
+        <img src={"https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photo_reference=" + ref + "&key=AIzaSyCgKUYmaMTeQNa1MPWS6_LO6hTVxcxMSZY"} alt="location"/>
         <p>{locs[index].types[0]}, {locs[index].types[1]},{locs[index].types[2]} </p>
-        <p>Address: {locs[index].vicinity}</p>
-        <p>Rating: {locs[index].rating} / 5.0</p>
+        <p>{locs[index].vicinity}</p>
+        <p>{locs[index].rating} / 5.0</p>
         <p></p>
         
     </div>

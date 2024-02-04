@@ -36,9 +36,13 @@ if (!(index == locs.length - 1)) return () => {
     return (
         <div className='current-location'>
               <Outlet context= {{locs, index}}/>
-              <div className="yes-no-bar">
-                <img src={yes} id='yes' className="option" alt="yes"/>
-                <img src={no} className="option" alt="no" onClick={handleClick2} />
+              <div className='cont'>
+              <div className="jump-image-container">
+                <img src={yes} id='yes' className="option jump-image" alt="yes"/>
+              </div>
+                <div className="jump-image-container">
+                <img src={no} id = 'no'className="option jump-image" alt="no" onClick={handleClick2} />
+              </div>
               </div>
             </div>
     );

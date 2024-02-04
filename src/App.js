@@ -16,7 +16,7 @@ function App() {
   console.log(sessionId)
   return (
     <div className="App">
-      <p>Session ID: {sessionId}</p>
+      <div className="sesh-container"><p className="sesh">Session ID: {sessionId}</p></div>
       <Outlet context= {{locs, index, sessionId}}/>
     </div>
   );

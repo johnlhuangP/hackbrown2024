@@ -9,12 +9,13 @@ const Home = () => {
     const [loading, setloading] = useState(false)
     const [make, setMake] = useState(true)
     const [numberOfLocations, setNumberOfLocations] = useState(10);
-    const [distance, setDistance] = useState(5000)
+    const [distance, setDistance] = useState(5)
     const [joinCode, setJoinCode] = useState('')
     const [selectedOptions, setSelectedOptions] = useState([]);
 
 
     const options = [
+        { label: 'Restaurant', value: "restaurant"},
         { label: "Aquarium", value: "aquarium" },
         { label: "Art Gallery", value: "art_gallery" },
         { label: "Bakery", value: "bakery" },
@@ -42,10 +43,16 @@ const Home = () => {
         // Add more options as needed
       ];
       const handleChangeOpt = (event) => {
-        // Convert the NodeList to an array, map over it, and return an array of selected option values
-        const selectedValues = Array.from(event.target.selectedOptions).map((option) => option.value);
-        setSelectedOptions(selectedValues);
+        const value = event.target.value;
+        const isSelected = selectedOptions.includes(value);
+      
+        if (isSelected) {
+          setSelectedOptions(selectedOptions.filter(option => option !== value));
+        } else {
+          setSelectedOptions([...selectedOptions, value]);
+        }
       };
+      
     
     const handleChangeMake = (event) => {
         setMake(true)
@@ -87,10 +94,15 @@ const Home = () => {
     useEffect(() => {
         socket.on('sessionCreated', (data) =>{
             console.log(data);
+            if (data.places.length < numberOfLocations){
+                alert('Please select wider parameters!')
+                setloading(false) 
+            } else{
             setSesh(data.sessionId);
             setLocs(data.places)
             navigate('/card/0', {state: {id : data.sessionId, locs: data.places}})
-            setloading(false)    
+            setloading(false) 
+            }   
         })
         socket.on('joinedSession', (data) =>{
             setSesh(data.sessionId);
@@ -107,7 +119,8 @@ useEffect(() => {
   }, [sesh, locs]);
         const makeSession = (event) => {
             // This code will be executed when the button is clicked
-            socket.emit('createSession', { amt: numberOfLocations, distance: distance});
+            console.log(selectedOptions);
+            socket.emit('createSession', { amt: numberOfLocations, distance: distance * 1609.34, places: selectedOptions} );
             setloading(true);
         }
 
@@ -124,7 +137,7 @@ useEffect(() => {
     return (
         <div className='App'>
             <header className='App-Header'>
-                <h1 className='app-title'>
+                <h1 className='app-title oscillating-underline'>
                     KickIT
                 </h1>
             </header>
@@ -145,7 +158,7 @@ useEffect(() => {
         value={numberOfLocations}
         onChange={handleChange}
       />
-      <label htmlFor="DISTANCE" className='form'>DISTANCE</label>
+      <label htmlFor="DISTANCE" className='form'>Distance (miles)</label>
       <input
         type="number"
         id="distance"

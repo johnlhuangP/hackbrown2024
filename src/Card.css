@@ -6,7 +6,7 @@ img{
 }
 
 .card {
-    background-color: grey;
+    background-color: rgb(255, 255, 255);
     border-radius: 2px;
     display: inline-block;
     border-radius: 15px;
@@ -14,10 +14,11 @@ img{
     margin: 1rem;
     position: relative;
     width: 400px;
+    color: black;
 }
 
 .card-image {
-    border-radius: 15px 15px 0 0;
-    height: 150px;
-    width: 150px;
+    border-radius: 10px 10px 0 0;
+    height: 300px;
+    width: 400px;
 }

@@ -39,8 +39,8 @@
 }
 
 .option {
-  width: 10%;
-  height: 10%;
+  width:80px;
+  height:80px;
 }
 
 .button {
@@ -52,4 +52,55 @@
 }
 .text{
   color: rgb(201, 160, 160);
+}
+
+.oscillating-underline {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.oscillating-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px; /* Thickness of the underline */
+  background: linear-gradient(90deg, transparent, cyan, transparent); /* Oscillation color */
+  background-repeat: no-repeat;
+  background-size: 200% 100%;
+  animation: oscillate 2s linear infinite; /* Adjust time as needed */
+}
+
+@keyframes oscillate {
+  0% {
+    background-position: 200% 0;
+  }
+  50% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.jump-image {
+  transition: transform 0.3s ease; /* Smooth transition for the transform */ /* Ensures the image does not have extra space around it */
+}
+
+.jump-image-container:hover .jump-image {
+  transform: translateY(-15px); /* Moves the image up by 15px on hover */
+}
+
+.cont{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+.sesh-container{
+  position: fixed;
+  width: 100%;
+  top: 0px;
+  font-weight: bold;
+  background-color: rgb(35, 144, 164);
 }

@@ -20,12 +20,12 @@ const io = socketIo(server, {
     }
 });
 
-function findNearbyPlaces(amt, radi) {
+function findNearbyPlaces(amt, radi, query) {
     console.log('radi' + radi);
     return googleMapsClient.placesNearby({
         location: [41.8268, -71.4025], // Example latitude and longitude
         radius: Number(radi), // Search radius in meters
-        type: 'restaurant' // Type of place
+        type: query // Type of place
     }).asPromise()
     .then((response) => { // Handle response data
         return response.json.results.slice(0,amt);
@@ -110,19 +110,39 @@ let sessions = {
     }
   };
 
+  function getRandomElements(arr, n) {
+    // Shallow copy the array to avoid mutating the original array
+    let tempArr = arr.slice();
+    
+    // Fisher-Yates shuffle algorithm to shuffle the array
+    for (let i = tempArr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [tempArr[i], tempArr[j]] = [tempArr[j], tempArr[i]]; // ES6 array destructuring to swap elements
+    }
+    
+    // Slice the first n elements from the shuffled array
+    return tempArr.slice(0, n);
+  }
+
 io.on('connection', (socket) => {
     console.log('new connection')
     socket.on('createSession', async (data) => {
         console.log("distance:" + data.distance);
-        queryPlaces = await findNearbyPlaces(data.amt, data.distance)
+        queryPlaces = []
+        for (const query of data.places){
+          places = await findNearbyPlaces(data.amt, data.distance, query)
+          queryPlaces = queryPlaces.concat(places);
+        }
+        qPlaces = getRandomElements(queryPlaces, data.amt)
+
         //console.log(queryPlaces);
         console.log('query: ' + queryPlaces);
         const sessionId = generateUniqueId();
         id = socket.id
         socket.join(sessionId);
         sessions[sessionId] = {
-            votes: new Array(queryPlaces.length).fill(0),
-            places: queryPlaces,
+            votes: new Array(qPlaces.length).fill(0),
+            places: qPlaces,
             participants: {},
         }
         sessions[sessionId].participants[id] = {votedOptions : new Set(), hasVotedForAll: false}
@@ -157,7 +177,7 @@ io.on('connection', (socket) => {
     console.log('a user connected');
 });
 
-
-server.listen(5001, () => {
-    console.log('Listening on *:5001');
+const PORT  = process.env.PORT || 5001;
+server.listen(PORT, () => {
+    console.log('Listening on ${PORT}');
 });
