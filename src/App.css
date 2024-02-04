@@ -46,3 +46,9 @@
   width:10%;
   height: auto;
 }
+.background{
+  background-color: rgb(20, 22, 150);
+}
+.text{
+  color: rgb(201, 160, 160);
+}
