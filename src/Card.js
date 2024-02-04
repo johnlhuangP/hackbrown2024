@@ -1,23 +1,21 @@
 import React from 'react';
-
-
-const cardAppearance = {
-    background: "#grey",
-    borderRadius: 15,
-    width: "20%",
-    height: "500px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
-  };
-
+import './Card.css';
+import yes from './images/yes.png';
   /**
    * To represent a card component that can displayed in order to be approved or denied of by the user.
    * @returns A component representing a card.
    
    */
 const Card = () => (
-    <div style={cardAppearance}>
+    <div className="card">
+        
+        <h1>Location Title</h1>
+        <br></br>
+        <p>Location Image</p>
+        <br></br>
+        <br></br>
+        <p>Card Description</p>
+        <p>Stars</p>
     </div>
 );
 
