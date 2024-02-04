@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 <<<<<<< HEAD
 import { useNavigate } from 'react-router-dom';
 import socket from './socket'
+import './home.css'
 const Home = () => {
     const navigate = useNavigate()
     const [sesh, setSesh] = useState(null);
     const [locs, setLocs] = useState(null);
     const [loading, setloading] = useState(false)
+    const [make, setMake] = useState(true)
+    const [join, setJoin] = useState(false)
     useEffect(() => {
         socket.on('sessionCreated', (data) =>{
             console.log(data);
@@ -23,10 +26,10 @@ const Home = () => {
             console.log('new sesion id: ' + sesh + 'locs: ' + locs);
         })
     if (!loading){
-    document.getElementById('vote').addEventListener('click', function() {
+    //document.getElementById('vote').addEventListener('click', function() {
         // This code will be executed when the button is clicked
-        socket.emit('makeVote', { placeId: 1, joinCode: sesh});
-    });
+        //socket.emit('makeVote', { placeId: 1, joinCode: sesh});
+    //});
     document.getElementById('create').addEventListener('click', function() {
         // This code will be executed when the button is clicked
         socket.emit('createSession', { amt: 5, distance: 500 });
@@ -55,9 +58,10 @@ useEffect(() => {
                     KickIT
                 </h1>
             </header>
-              <button id="create">Make Session</button>
+        <div>
+        <button id="create">Make Session</button>
         <button id="join">Join Session</button>
-        <button id = "vote">Vote</button>
+        </div>
         </div>
     )
     }
