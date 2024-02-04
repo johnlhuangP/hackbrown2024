@@ -1,6 +1,5 @@
 
 /* App.css */
-@import url('https://fonts.cdnfonts.com/css/space-theme'); 
 .App {
 
     display: flex;
@@ -36,6 +35,7 @@
     width: 350px;
     border-radius: 10px;
     box-shadow: 0, 0, 10, 10;
+    padding: 10px;
   }
   .session{
     background-color: rgb(120, 120, 157);
@@ -69,6 +69,10 @@
   button{
     cursor: pointer;
   }
-  
+  .right{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
   /* Add more styles as needed */
   

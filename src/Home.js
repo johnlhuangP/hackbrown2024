@@ -11,8 +11,42 @@ const Home = () => {
     const [numberOfLocations, setNumberOfLocations] = useState(10);
     const [distance, setDistance] = useState(5000)
     const [joinCode, setJoinCode] = useState('')
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
 
+    const options = [
+        { label: "Aquarium", value: "aquarium" },
+        { label: "Art Gallery", value: "art_gallery" },
+        { label: "Bakery", value: "bakery" },
+        { label: "Bar", value: "bar" },
+        { label: "Beauty Salon", value: "beauty_salon" },
+        { label: "Book Store", value: "book_store" },
+        { label: "Bowling_alley", value: "bowling_alley" },
+        { label: "Cafe", value: "cafe" },
+        { label: "Campground", value: "campground" },
+        { label: "Casino", value: "casino" },
+        { label: "Clothing Store", value: "clothing_store" },
+        { label: "Convenience Store", value: "convenience_store" },
+        { label: "Gym", value: "gym" },
+        { label: "Haircut", value: "hair_care" },
+        { label: "Library", value: "library" },
+        { label: "Takeout", value: "meal_takeout" },
+        { label: "Museum", value: "museum" },
+        { label: "Club", value: "night_club" },
+        { label: "Park", value: "park" },
+        { label: "Mall", value: "shopping_mall" },
+        { label: "Tourism", value: "tourist_attraction" },
+        { label: "University", value: "universtiy" },
+        
+
+        // Add more options as needed
+      ];
+      const handleChangeOpt = (event) => {
+        // Convert the NodeList to an array, map over it, and return an array of selected option values
+        const selectedValues = Array.from(event.target.selectedOptions).map((option) => option.value);
+        setSelectedOptions(selectedValues);
+      };
+    
     const handleChangeMake = (event) => {
         setMake(true)
       };
@@ -55,48 +89,34 @@ const Home = () => {
             console.log(data);
             setSesh(data.sessionId);
             setLocs(data.places)
-            navigate('/card', {state: {id : data.sessionId, locs: data.places}})
+            navigate('/card/0', {state: {id : data.sessionId, locs: data.places}})
             setloading(false)    
         })
         socket.on('joinedSession', (data) =>{
             setSesh(data.sessionId);
             setLocs(data.places);
-            navigate('/card', {id : data.sessionId, locs: data.places})
+            navigate('/card/0', {id : data.sessionId, locs: data.places})
             setloading(false)
             console.log('new sesion id: ' + sesh + 'locs: ' + locs);
         })
-    if (!loading){
-    //document.getElementById('vote').addEventListener('click', function() {
-        // This code will be executed when the button is clicked
-        //socket.emit('makeVote', { placeId: 1, joinCode: sesh});
-    //});
-    if (make){
-        document.getElementById('goMake').addEventListener('click', function() {
-            // This code will be executed when the button is clicked
-            socket.emit('createSession', { amt: numberOfLocations, distance: distance });
-            setloading(true);
-        });
         document.getElementById('join').addEventListener('click', handleChangeJoin)
-        
-    }
-
-    if (!make){
-        document.getElementById('goJoin').addEventListener('click', function() {
-            // This code will be executed when the button is clicked
-            console.log(sesh);
-            socket.emit('joinSession', { joinCode: sesh });
-            setloading(true);
-        });
         document.getElementById('create').addEventListener('click', handleChangeMake)
-        
-
-    }
-}
-});
+}, []);
 useEffect(() => {
     console.log('new session id:', sesh, 'locs:', locs);
   }, [sesh, locs]);
+        const makeSession = (event) => {
+            // This code will be executed when the button is clicked
+            socket.emit('createSession', { amt: numberOfLocations, distance: distance});
+            setloading(true);
+        }
 
+        const joinSession = (event) => {
+            console.log(sesh);
+            socket.emit('joinSession', { joinCode: sesh });
+            setloading(true);
+        };
+        
   if (loading) {
     return <Loading />; // Use your custom loading component
   }
@@ -114,6 +134,7 @@ useEffect(() => {
         {(make) ? <button id="join" className='session'>Join Session</button> : <button id="join" className='toggled session'>Join Session</button>}
         <div className='make'>
     {(make) ? <form onSubmit={handleSubmit}>
+        <div className='right'>
         <div className='former'>
       <label htmlFor="locations" className='form'>Locations</label>
       <input
@@ -131,9 +152,17 @@ useEffect(() => {
         name="distance"
         min="100"  // Minimum number of locations
         value={distance}
-        onChange={handleChange}
+        onChange={handleChangeD}
       />
-      <button id='goMake' className = 'go' type="submit">GO</button>
+      <button id='goMake' className = 'go' onClick ={makeSession} type="submit">GO</button>
+      <div>
+    </div>
+      </div>
+      <select multiple={true} value={selectedOptions} onChange={handleChangeOpt}>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>{option.label}</option>
+        ))}
+      </select>
       </div>
     </form> : 
     <form onSubmit={handleSubmitCode}>
@@ -146,7 +175,7 @@ useEffect(() => {
         value={joinCode}
         onChange={handleChangeCode}
       />
-      <button id='goJoin' className='go' type="submit">GO</button>
+      <button id='goJoin' className='go' onClick = {joinSession} type="submit">GO</button>
       </div>
     </form>
     }
@@ -168,3 +197,5 @@ function Loading() {
   }
 
 export default Home;
+
+

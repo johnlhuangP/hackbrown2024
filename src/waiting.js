@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import './waiting.css'
 import socket from './socket'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 const Waiting = () => {
     const navigate = useNavigate();
+   const data = useLocation()
+   console.log('Waiting Data: ' + data.state.locs);
     useEffect(() => {
         socket.on('gameEnded', (winner) => {
             console.log(winner);
-            navigate('/winner', {state: {win: winner}})
+            navigate('/winner', {state: {win: winner, locs: data.state.locs}})
         })
     }, []);
     return (

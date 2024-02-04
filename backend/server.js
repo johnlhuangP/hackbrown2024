@@ -21,9 +21,10 @@ const io = socketIo(server, {
 });
 
 function findNearbyPlaces(amt, radi) {
+    console.log('radi' + radi);
     return googleMapsClient.placesNearby({
-        location: [-33.866, 151.196], // Example latitude and longitude
-        radius: radi, // Search radius in meters
+        location: [41.8268, -71.4025], // Example latitude and longitude
+        radius: Number(radi), // Search radius in meters
         type: 'restaurant' // Type of place
     }).asPromise()
     .then((response) => { // Handle response data
@@ -37,17 +38,17 @@ function findNearbyPlaces(amt, radi) {
 function generateUniqueId() {
     return crypto.randomBytes(3).toString('hex');
 }
-function recordVote(sessionId, participantId, optionId) {
+function recordVote(sessionId, participantId, optionId, made) {
     let session = sessions[sessionId];
     if (session && session.participants[participantId]) {
       let participant = session.participants[participantId];
       participant.votedOptions.add(optionId);
-      session.votes[optionId]+=1  
+      if (made) session.votes[optionId]+=1  
       // Check if the participant has voted for all options
       if (participant.votedOptions.size === session.places.length) {
         participant.hasVotedForAll = true;
       }
-      console.log(participant.votedOptions);
+      console.log(session.votes);
       // After recording the vote, check if the game should end
       checkEndGame(sessionId);
     }
@@ -67,16 +68,16 @@ function recordVote(sessionId, participantId, optionId) {
     let maxIndex = 0;
     let maxVal = votes[0]
     votes.forEach((value, index) => {
-        if (value > maxValue){
+        if (value > maxVal){
             maxIndex = index;
-            maxValue = value;
+            maxVal = value;
         }
     })
-    return maxIndex;
+    return {maxIndex, maxVal};
   }
   function endGame(sessionId) {
     // Notify participants the game has ended
-    io.to(sessionId).emit('gameEnded', { winningIndex: getTopVotes(sessionId)});
+    io.to(sessionId).emit('gameEnded', { winningIndex: getTopVotes(sessionId).maxIndex, votes: getTopVotes(sessionId).maxVal });
   }
   
 
@@ -112,6 +113,7 @@ let sessions = {
 io.on('connection', (socket) => {
     console.log('new connection')
     socket.on('createSession', async (data) => {
+        console.log("distance:" + data.distance);
         queryPlaces = await findNearbyPlaces(data.amt, data.distance)
         //console.log(queryPlaces);
         console.log('query: ' + queryPlaces);
@@ -146,7 +148,8 @@ io.on('connection', (socket) => {
         placeId = data.placeId
         sessionId = data.joinCode
         particId = socket.id;
-        recordVote(sessionId, particId, placeId)
+        made = data.made
+        recordVote(sessionId, particId, placeId, made)
         console.log('vote made')
         socket.emit('voteCounted', {placeId}); 
     });
