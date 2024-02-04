@@ -1,0 +1,44 @@
+/* Home.css */
+
+@import url('https://fonts.cdnfonts.com/css/space-theme'); 
+body {
+    font-family: 'Space Theme', sans-serif;
+  }                                         
+
+.current-location {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #282c34;
+    color: white;
+    
+  }
+  
+  .current-location h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  #vote,
+  #create,
+  #join {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #61dafb; /* Change color to your preference */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  #vote:hover,
+  #create:hover,
+  #join:hover {
+    background-color: #4fa3d1; /* Change color to your preference */
+  }
+  
+  /* Add more styles as needed */
+  

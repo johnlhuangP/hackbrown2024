@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CreateSessionComponent from './CreateSessionComponent';
-import InputInterestsComponent from './InputInterestsComponent';
 import { Switch } from '@chakra-ui/react';
+import JoinSession from './JoinSession';
 
 const ToggleComponent = () => {
   const [showCreateSession, setShowCreateSession] = useState(false);
@@ -11,10 +11,15 @@ const ToggleComponent = () => {
   };
 
   return (
-    <div>
-      <Switch size='lg' onChange={handleToggleClick} />
-      {showCreateSession ? <CreateSessionComponent /> : <InputInterestsComponent />}
+    <div style={{ textAlign: 'center' }}>
+      <div>
+        <Switch size='lg' onChange={handleToggleClick} />
+      </div>
+      <div>
+        {showCreateSession ? <CreateSessionComponent /> : <JoinSession />}
+      </div>
     </div>
   );
 };
+
 export default ToggleComponent;
