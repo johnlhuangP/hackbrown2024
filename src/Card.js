@@ -7,6 +7,7 @@ import {useOutletContext, Outle} from 'react-router-dom'
    * @returns A component representing a card.
    */
 const Card = () => {
+    const apiKey = process.env.REACT_APP_API_KEY;
     const [details, setDetails] = useState(null)
     const {locs, index} = useOutletContext()
     let ref = 'default_value'; // Default value
@@ -17,7 +18,7 @@ if (locs[index] && locs[index].photos && locs[index].photos[0] && locs[index].ph
     <div className="card">
         <h1>{locs[index].name}</h1>
         {/* <img src= "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png" alt="location"/> */}
-        <img src={"https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photo_reference=" + ref + "&key=AIzaSyCgKUYmaMTeQNa1MPWS6_LO6hTVxcxMSZY"} alt="location"/>
+        <img src={"https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photo_reference=" + ref + "&key=" + apiKey} alt="location"/>
         <p>{locs[index].types[0]}, {locs[index].types[1]},{locs[index].types[2]} </p>
         <p>{locs[index].vicinity}</p>
         <p>{locs[index].rating} / 5.0</p>

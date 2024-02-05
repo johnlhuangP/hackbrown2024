@@ -12,6 +12,36 @@ const Home = () => {
     const [distance, setDistance] = useState(5)
     const [joinCode, setJoinCode] = useState('')
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [location, setLocation] = useState({
+      loaded: false,
+      coordinates: {lat: "", lng: ""}
+    })
+    const onSuccess = location => {
+      setLocation({
+        loaded: true,
+        coordinates: {
+          lat: location.coords.latitude,
+          lng: location.coords.longitude,
+        },
+      });
+    };
+    const onError = error => {
+      setLocation({
+        loaded: true,
+        error,
+      });
+    };
+
+    useEffect(() => {
+      if (!("geolocation" in navigator)) {
+        onError({
+          code: 0,
+          message: "Geolocation not supported",
+        });
+      }
+  
+      navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    }, []);
 
 
     const options = [
@@ -120,7 +150,8 @@ useEffect(() => {
         const makeSession = (event) => {
             // This code will be executed when the button is clicked
             console.log(selectedOptions);
-            socket.emit('createSession', { amt: numberOfLocations, distance: distance * 1609.34, places: selectedOptions} );
+            console.log(location.coordinates);
+            socket.emit('createSession', { amt: numberOfLocations, distance: distance * 1609.34, places: selectedOptions, loc: location.coordinates } );
             setloading(true);
         }
 

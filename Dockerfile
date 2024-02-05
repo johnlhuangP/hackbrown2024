@@ -1,15 +1,23 @@
-FROM node:16-alpine as build
+# Build stage
+FROM node:18-alpine as build
 
-WORKDIR /app
-# Example Dockerfile snippet
-# Set NODE_OPTIONS environment variable
 ENV NODE_OPTIONS=--openssl-legacy-provider
+WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . ./
 RUN npm run build
 # Serve stage
-FROM nginx:alpine
+# Serve stage
+FROM nginx:stable-alpine as serve
 COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+COPY nginx.conf.template /etc/nginx/templates/default.conf.template
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Optional: If you need to customize Nginx configuration
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+
+CMD ["/entrypoint.sh"]
