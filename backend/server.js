@@ -1,5 +1,5 @@
 const googleMapsClient = require('@google/maps').createClient({
-    key: 'AIzaSyCgKUYmaMTeQNa1MPWS6_LO6hTVxcxMSZY',
+    key: process.env.API_KEY,
     Promise: Promise // Promises support is not enabled by default
 });
 const express = require('express');
@@ -20,10 +20,10 @@ const io = socketIo(server, {
     }
 });
 
-function findNearbyPlaces(amt, radi, query) {
+function findNearbyPlaces(amt, radi, query, loc) {
     console.log('radi' + radi);
     return googleMapsClient.placesNearby({
-        location: [41.8268, -71.4025], // Example latitude and longitude
+        location: [parseFloat(loc.lat), parseFloat(loc.lng)], // Example latitude and longitude
         radius: Number(radi), // Search radius in meters
         type: query // Type of place
     }).asPromise()
@@ -112,17 +112,18 @@ let sessions = {
   };
 
   function getRandomElements(arr, n) {
-    // Shallow copy the array to avoid mutating the original array
-    let tempArr = arr.slice();
-    
-    // Fisher-Yates shuffle algorithm to shuffle the array
-    for (let i = tempArr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [tempArr[i], tempArr[j]] = [tempArr[j], tempArr[i]]; // ES6 array destructuring to swap elements
+    let result = new Array(n),
+        len = arr.length,
+        taken = new Array(len);
+    if (n > len)
+      throw new RangeError("getRandomElements: more elements taken than available");
+  
+    while (n--) {
+      let x = Math.floor(Math.random() * len);
+      result[n] = arr[x in taken ? taken[x] : x];
+      taken[x] = --len in taken ? taken[len] : len;
     }
-    
-    // Slice the first n elements from the shuffled array
-    return tempArr.slice(0, n);
+    return result;
   }
 
 io.on('connection', (socket) => {
@@ -131,7 +132,7 @@ io.on('connection', (socket) => {
         console.log("distance:" + data.distance);
         queryPlaces = []
         for (const query of data.places){
-          places = await findNearbyPlaces(data.amt, data.distance, query)
+          places = await findNearbyPlaces(data.amt, data.distance, query, data.loc)
           queryPlaces = queryPlaces.concat(places);
         }
         qPlaces = getRandomElements(queryPlaces, data.amt)
